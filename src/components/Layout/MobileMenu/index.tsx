@@ -188,7 +188,7 @@ const MobileMenu = ({
               key={`mobile-menu-link-${link.href}`}
               href={link.href}
               className={`flex items-center ${
-                isActive ? 'text-indigo-500' : ''
+                isActive ? 'text-cyan-500' : ''
               }`}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -207,7 +207,7 @@ const MobileMenu = ({
                 pendingRequestsCount > 0 &&
                 hasPermission(Permission.MANAGE_REQUESTS) && (
                   <div className="ml-auto flex">
-                    <Badge className="rounded-md border-indigo-500 bg-gradient-to-br from-indigo-600 to-purple-600">
+                    <Badge className="rounded-md border-cyan-500 bg-gradient-to-br from-cyan-600 to-blue-600">
                       {pendingRequestsCount}
                     </Badge>
                   </div>
@@ -216,7 +216,7 @@ const MobileMenu = ({
                 openIssuesCount > 0 &&
                 hasPermission(Permission.MANAGE_ISSUES) && (
                   <div className="ml-auto flex">
-                    <Badge className="rounded-md border-indigo-500 bg-gradient-to-br from-indigo-600 to-purple-600">
+                    <Badge className="rounded-md border-cyan-500 bg-gradient-to-br from-cyan-600 to-blue-600">
                       {openIssuesCount}
                     </Badge>
                   </div>
@@ -237,7 +237,7 @@ const MobileMenu = ({
                   key={`mobile-menu-link-${link.href}`}
                   href={link.href}
                   className={`relative flex flex-col items-center space-y-1 ${
-                    isActive ? 'text-indigo-500' : ''
+                    isActive ? 'text-cyan-500' : ''
                   }`}
                 >
                   {cloneElement(
