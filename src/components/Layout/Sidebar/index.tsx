@@ -15,6 +15,7 @@ import {
   TvIcon,
   UsersIcon,
   XMarkIcon,
+  HeartIcon,
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,6 +27,7 @@ export const menuMessages = defineMessages('components.Layout.Sidebar', {
   dashboard: 'Discover',
   browsemovies: 'Movies',
   browsetv: 'Series',
+  family: 'Family Center',
   requests: 'Requests',
   blocklist: 'Blocklist',
   issues: 'Issues',
@@ -71,6 +73,12 @@ const SidebarLinks: SidebarLinkProps[] = [
     messagesKey: 'browsetv',
     svgIcon: <TvIcon className="mr-3 h-6 w-6" />,
     activeRegExp: /^\/discover\/tv$/,
+  },
+  {
+    href: '/discover/family',
+    messagesKey: 'family',
+    svgIcon: <HeartIcon className="mr-3 h-6 w-6" />,
+    activeRegExp: /^\/discover\/family/,
   },
   {
     href: '/requests',
