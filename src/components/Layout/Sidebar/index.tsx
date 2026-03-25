@@ -82,12 +82,6 @@ const SidebarLinks: SidebarLinkProps[] = [
     activeRegExp: /^\/discover\/tv$/,
   },
   {
-    href: '/discover/family',
-    messagesKey: 'family',
-    svgIcon: <HeartIcon className="mr-3 h-6 w-6" />,
-    activeRegExp: /^\/discover\/family/,
-  },
-  {
     href: '/requests',
     messagesKey: 'requests',
     svgIcon: <ClockIcon className="mr-3 h-6 w-6" />,
