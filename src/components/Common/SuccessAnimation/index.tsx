@@ -120,9 +120,8 @@ const Particle = ({ x, y, color, delay }: ParticleProps) => {
 
   return (
     <animated.div
-      style={animation}
+      style={{ ...animation, backgroundColor: color }}
       className="absolute left-1/2 top-1/2 h-3 w-3 rounded-full"
-      css={{ backgroundColor: color }}
     />
   );
 };
