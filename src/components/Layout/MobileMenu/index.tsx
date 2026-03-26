@@ -10,6 +10,7 @@ import {
   ExclamationTriangleIcon,
   EyeSlashIcon,
   FilmIcon,
+  HeartIcon,
   SparklesIcon,
   TvIcon,
   UsersIcon,
@@ -20,6 +21,7 @@ import {
   ExclamationTriangleIcon as FilledExclamationTriangleIcon,
   EyeSlashIcon as FilledEyeSlashIcon,
   FilmIcon as FilledFilmIcon,
+  HeartIcon as FilledHeartIcon,
   SparklesIcon as FilledSparklesIcon,
   TvIcon as FilledTvIcon,
   UsersIcon as FilledUsersIcon,
@@ -77,6 +79,13 @@ const MobileMenu = ({
       svgIcon: <SparklesIcon className="h-6 w-6" />,
       svgIconSelected: <FilledSparklesIcon className="h-6 w-6" />,
       activeRegExp: /^\/(discover\/?)?$/,
+    },
+    {
+      href: '/family-center',
+      content: intl.formatMessage(menuMessages.familycenter),
+      svgIcon: <HeartIcon className="h-6 w-6" />,
+      svgIconSelected: <FilledHeartIcon className="h-6 w-6" />,
+      activeRegExp: /^\/family-center/,
     },
     {
       href: '/discover/movies',
@@ -179,7 +188,7 @@ const MobileMenu = ({
         leave="transition duration-500"
         leaveFrom="opacity-100 -translate-y-full"
         leaveTo="opacity-0 translate-y-0"
-        className="absolute left-0 right-0 top-0 flex w-full -translate-y-full flex-col space-y-6 border-t border-gray-600 bg-gray-900/90 px-6 py-6 font-semibold text-gray-100 backdrop-blur"
+        className="absolute left-0 right-0 top-0 flex w-full -translate-y-full flex-col space-y-4 border-t border-purple-700/70 bg-gradient-to-b from-purple-900/95 via-violet-900/95 to-[#1a0b2e]/95 px-4 py-4 font-medium text-gray-100 backdrop-blur"
       >
         {filteredLinks.map((link) => {
           const isActive = router.pathname.match(link.activeRegExp);
@@ -187,8 +196,10 @@ const MobileMenu = ({
             <Link
               key={`mobile-menu-link-${link.href}`}
               href={link.href}
-              className={`flex items-center ${
-                isActive ? 'text-cyan-500' : ''
+              className={`flex items-center rounded-md px-2 py-2 text-base leading-6 text-white transition duration-150 ease-in-out focus:outline-none ${
+                isActive
+                  ? 'bg-gradient-to-br from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500'
+                  : 'hover:bg-gray-700/70 focus:bg-gray-700/70'
               }`}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -200,14 +211,20 @@ const MobileMenu = ({
               tabIndex={0}
             >
               {cloneElement(isActive ? link.svgIconSelected : link.svgIcon, {
-                className: 'h-5 w-5',
+                className: 'h-6 w-6',
               })}
-              <span className="ml-2">{link.content}</span>
+              <span className="ml-3">{link.content}</span>
               {link.href === '/requests' &&
                 pendingRequestsCount > 0 &&
                 hasPermission(Permission.MANAGE_REQUESTS) && (
                   <div className="ml-auto flex">
-                    <Badge className="rounded-md border-cyan-500 bg-gradient-to-br from-cyan-600 to-blue-600">
+                    <Badge
+                      className={`rounded-md bg-gradient-to-br ${
+                        isActive
+                          ? 'border-cyan-600 from-cyan-700 to-blue-700'
+                          : 'border-cyan-500 from-cyan-600 to-blue-600'
+                      }`}
+                    >
                       {pendingRequestsCount}
                     </Badge>
                   </div>
@@ -216,7 +233,13 @@ const MobileMenu = ({
                 openIssuesCount > 0 &&
                 hasPermission(Permission.MANAGE_ISSUES) && (
                   <div className="ml-auto flex">
-                    <Badge className="rounded-md border-cyan-500 bg-gradient-to-br from-cyan-600 to-blue-600">
+                    <Badge
+                      className={`rounded-md bg-gradient-to-br ${
+                        isActive
+                          ? 'border-cyan-600 from-cyan-700 to-blue-700'
+                          : 'border-cyan-500 from-cyan-600 to-blue-600'
+                      }`}
+                    >
                       {openIssuesCount}
                     </Badge>
                   </div>
@@ -225,7 +248,7 @@ const MobileMenu = ({
           );
         })}
       </Transition>
-      <div className="padding-bottom-safe border-t border-gray-600 bg-gray-800/90 backdrop-blur">
+      <div className="padding-bottom-safe border-t border-purple-700/70 bg-gradient-to-r from-purple-900/95 via-violet-900/95 to-[#1a0b2e]/95 backdrop-blur">
         <div className="flex h-full items-center justify-between px-6 py-4 text-gray-100">
           {filteredLinks
             .slice(0, filteredLinks.length === 5 ? 5 : 4)
@@ -237,7 +260,7 @@ const MobileMenu = ({
                   key={`mobile-menu-link-${link.href}`}
                   href={link.href}
                   className={`relative flex flex-col items-center space-y-1 ${
-                    isActive ? 'text-cyan-500' : ''
+                    isActive ? 'text-cyan-400' : ''
                   }`}
                 >
                   {cloneElement(
