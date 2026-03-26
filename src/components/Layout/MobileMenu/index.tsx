@@ -188,7 +188,7 @@ const MobileMenu = ({
         leave="transition duration-500"
         leaveFrom="opacity-100 -translate-y-full"
         leaveTo="opacity-0 translate-y-0"
-        className="absolute left-0 right-0 top-0 flex w-full -translate-y-full flex-col space-y-4 border-t border-purple-700/70 bg-gradient-to-b from-purple-900/95 via-violet-900/95 to-[#1a0b2e]/95 px-4 py-4 font-medium text-gray-100 backdrop-blur"
+        className="absolute left-0 right-0 top-0 flex w-full -translate-y-full flex-col space-y-4 border-t border-purple-700/70 bg-gradient-to-b from-purple-900/95 via-violet-900/95 to-violet-950/95 px-4 py-4 font-medium text-gray-100 backdrop-blur"
       >
         {filteredLinks.map((link) => {
           const isActive = router.pathname.match(link.activeRegExp);
@@ -248,7 +248,7 @@ const MobileMenu = ({
           );
         })}
       </Transition>
-      <div className="padding-bottom-safe border-t border-purple-700/70 bg-gradient-to-r from-purple-900/95 via-violet-900/95 to-[#1a0b2e]/95 backdrop-blur">
+      <div className="padding-bottom-safe border-t border-purple-700/70 bg-gradient-to-r from-purple-900/95 via-violet-900/95 to-violet-950/95 backdrop-blur">
         <div className="flex h-full items-center justify-between px-6 py-4 text-gray-100">
           {filteredLinks
             .slice(0, filteredLinks.length === 5 ? 5 : 4)
