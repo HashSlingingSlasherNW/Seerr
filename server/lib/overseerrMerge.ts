@@ -116,8 +116,8 @@ const checkOverseerrMerge = async (): Promise<boolean> => {
   settings.main.mediaServerType = MediaServerType.PLEX;
 
   // Replace default Overseerr values with Seerr values
-  if (settings.main.applicationTitle === 'Overseerr') {
-    settings.main.applicationTitle = 'Seerr';
+  if (settings.main.applicationTitle === 'Overseerr' || settings.main.applicationTitle === 'Seerr') {
+    settings.main.applicationTitle = 'Browse&Request';
   }
   if (settings.notifications.agents.email.options.senderName === 'Overseerr') {
     settings.notifications.agents.email.options.senderName = 'Seerr';

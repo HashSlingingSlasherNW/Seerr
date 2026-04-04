@@ -63,10 +63,10 @@ const Layout = ({ children }: LayoutProps) => {
   }, []);
 
   return (
-    <div className="flex h-full min-h-full min-w-0 bg-gradient-to-br from-teal-900 via-cyan-900 to-blue-900">
+    <div className="flex h-full min-h-full min-w-0 bg-[#0c2e1c]">
       <div className="pwa-only fixed inset-0 z-20 h-1 w-full border-gray-700 md:border-t" />
-      <div className="absolute top-0 h-96 w-full bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 opacity-20">
-        <div className="relative inset-0 h-full w-full bg-gradient-to-t from-gray-900 to-transparent" />
+      <div className="absolute top-0 h-96 w-full opacity-30" style={{background: 'linear-gradient(135deg, rgba(52,211,153,0.4) 0%, rgba(245,158,11,0.2) 100%)'}}>
+        <div className="relative inset-0 h-full w-full bg-gradient-to-t from-[#0c2e1c] to-transparent" />
       </div>
       <Sidebar
         open={isSidebarOpen}
@@ -89,7 +89,7 @@ const Layout = ({ children }: LayoutProps) => {
         <PullToRefresh />
         <div
           className={`searchbar fixed left-0 right-0 top-0 z-10 flex flex-shrink-0 transition duration-300 ${
-            isScrolled ? 'bg-gray-700/80' : 'bg-transparent'
+            isScrolled ? 'bg-[#0c2e1c]/85' : 'bg-transparent'
           } lg:left-64`}
           style={{
             backdropFilter: isScrolled ? 'blur(5px)' : undefined,

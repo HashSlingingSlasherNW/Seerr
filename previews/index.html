@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse&Request Theme Showcase — Refined Variants</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #3f0f5c, #1a2e3a);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            color: #f9f5ff;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { font-size: 3rem; font-weight: 900; margin-bottom: 12px; background: linear-gradient(90deg, #34d399, #f59e0b, #6366f1, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align: center; }
+        .subtitle { text-align: center; color: rgba(249, 245, 255, 0.7); margin-bottom: 48px; font-size: 1.125rem; }
+        .sections { display: flex; flex-direction: column; gap: 48px; }
+        .section { background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(52, 211, 153, 0.05)); border: 2px solid rgba(99, 102, 241, 0.2); border-radius: 16px; padding: 32px; }
+        .section h2 { font-size: 1.75rem; color: #f9f5ff; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+        .theme-badge { display: inline-block; padding: 6px 14px; background: linear-gradient(90deg, #34d399, #f59e0b); color: #0b1f15; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+        .theme-badge.indigo { background: linear-gradient(90deg, #6366f1, #ec4899); color: #1e1b4b; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(52, 211, 153, 0.08)); border: 2px solid rgba(99, 102, 241, 0.2); border-radius: 12px; padding: 20px; transition: all 0.3s ease; text-decoration: none; color: inherit; }
+        .card.indigo { border-color: rgba(99, 102, 241, 0.3); }
+        .card:hover { transform: translateY(-8px); border-color: rgba(245, 158, 11, 0.8); box-shadow: 0 16px 40px rgba(99, 102, 241, 0.2); }
+        .card.indigo:hover { border-color: rgba(236, 72, 153, 0.8); }
+        .card-title { font-size: 1.125rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .card-description { font-size: 0.9rem; color: rgba(249, 245, 255, 0.7); line-height: 1.5; margin-bottom: 16px; }
+        .card-footer { display: flex; gap: 12px; flex-wrap: wrap; }
+        .tag { display: inline-block; padding: 4px 10px; background: rgba(99, 102, 241, 0.2); color: #6366f1; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+        .tag.green { background: rgba(52, 211, 153, 0.2); color: #34d399; }
+        .tag.accent { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .tag.pink { background: rgba(236, 72, 153, 0.2); color: #ec4899; }
+        .button { display: inline-block; padding: 10px 20px; background: linear-gradient(135deg, #34d399, #f59e0b); color: #0b1f15; border-radius: 6px; font-size: 0.875rem; font-weight: 700; text-decoration: none; text-align: center; transition: all 0.3s ease; margin-top: 12px; }
+        .button:hover { box-shadow: 0 8px 20px rgba(52, 211, 153, 0.4); transform: translateY(-2px); }
+        .button.indigo { background: linear-gradient(135deg, #6366f1, #ec4899); color: #1e1b4b; }
+        .button.indigo:hover { box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); }
+        .info-box { background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(52, 211, 153, 0.05)); border: 2px solid rgba(34, 197, 94, 0.2); border-radius: 12px; padding: 20px; margin-top: 32px; font-size: 0.95rem; line-height: 1.6; color: rgba(249, 245, 255, 0.85); }
+        .info-box h3 { color: #22c55e; margin-bottom: 12px; font-weight: 700; }
+        @media (max-width: 768px) { h1 { font-size: 2rem; } .grid { grid-template-columns: 1fr; } .section { padding: 20px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Browse&Request Theme Showcase</h1>
+        <p class="subtitle">12 Refined Design Variants — Emerald/Gold & Indigo/Rose Palettes</p>
+
+        <div class="sections">
+            <div class="section">
+                <h2><span class="theme-badge">Theme 8 — Emerald to Gold</span></h2>
+                <p style="margin-bottom: 24px; color: rgba(249, 245, 255, 0.7);">Warm & energetic gradient from vibrant emerald (#34d399) to golden amber (#f59e0b). Each variant showcases a distinct animation personality.</p>
+
+                <div class="grid">
+                    <a href="theme8_refined_base.html" class="card">
+                        <div class="card-title">🎯 Refined Base</div>
+                        <div class="card-description">Professional foundation with slow, calm gradient cycles and subtle breathing effects on cards. Best for elegant, serious applications.</div>
+                        <div class="card-footer"><span class="tag green">Calm</span><span class="tag green">Professional</span><span class="tag accent">14-28s cycles</span></div>
+                        <div class="button">View Theme</div>
+                    </a>
+
+                    <a href="theme8_var1_bouncy.html" class="card">
+                        <div class="card-title">🎪 Var1: Bouncy</div>
+                        <div class="card-description">High-feedback, playful interactions with ripple expanding circles, bouncing effects on hover, and pulsing animations throughout.</div>
+                        <div class="card-footer"><span class="tag green">Playful</span><span class="tag green">Interactive</span><span class="tag accent">0.5-2s cycles</span></div>
+                        <div class="button">View Theme</div>
+                    </a>
+
+                    <a href="theme8_var2_wave.html" class="card">
+                        <div class="card-title">🌊 Var2: Wave</div>
+                        <div class="card-description">Organic, sophisticated motion with combined wave gradients and phase shifts. Sidebar features dual animation with inset shadows for depth.</div>
+                        <div class="card-footer"><span class="tag green">Fluid</span><span class="tag green">Organic</span><span class="tag accent">12-16s cycles</span></div>
+                        <div class="button">View Theme</div>
+                    </a>
+
+                    <a href="theme8_var3_particles.html" class="card">
+                        <div class="card-title">✨ Var3: Particles</div>
+                        <div class="card-description">Ambient floating particles with gentle motion across viewport. Staggered entrance animations on cards and navigation elements.</div>
+                        <div class="card-footer"><span class="tag green">Ethereal</span><span class="tag green">Ambient</span><span class="tag accent">8-11s float</span></div>
+                        <div class="button">View Theme</div>
+                    </a>
+
+                    <a href="theme8_var4_glitch.html" class="card">
+                        <div class="card-title">⚡ Var4: Glitch</div>
+                        <div class="card-description">Modern digital aesthetic with glitch text animations on titles. Rapid background morphing creates technical, contemporary feel.</div>
+                        <div class="card-footer"><span class="tag green">Digital</span><span class="tag green">Modern</span><span class="tag accent">3-10s cycles</span></div>
+                        <div class="button">View Theme</div>
+                    </a>
+
+                    <a href="theme8_var5_rotating.html" class="card">
+                        <div class="card-title">🌀 Var5: Rotating</div>
+                        <div class="card-description">Smooth rotation effects on gradients, spinning icons on hover, and subtle fading badge animations for polished elegance.</div>
+                        <div class="card-footer"><span class="tag green">Smooth</span><span class="tag green">Polished</span><span class="tag accent">6-22s cycles</span></div>
+                        <div class="button">View Theme</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="theme-badge indigo">Theme 10 — Indigo to Rose</span></h2>
+                <p style="margin-bottom: 24px; color: rgba(249, 245, 255, 0.7);">Mystical & sophisticated gradient from deep indigo (#6366f1) through purple to rose (#ec4899). Same animation personalities with complementary color scheme.</p>
+
+                <div class="grid">
+                    <a href="theme10_refined_base.html" class="card indigo">
+                        <div class="card-title">🎯 Refined Base</div>
+                        <div class="card-description">Elegant foundation with measured gradient cycles. Indigo-rose palette evokes premium, sophisticated applications for premium audiences.</div>
+                        <div class="card-footer"><span class="tag pink">Elegant</span><span class="tag pink">Premium</span><span class="tag pink">15-28s cycles</span></div>
+                        <div class="button indigo">View Theme</div>
+                    </a>
+
+                    <a href="theme10_var1_bouncy.html" class="card indigo">
+                        <div class="card-title">🎪 Var1: Bouncy</div>
+                        <div class="card-description">Playful ripple and bounce dynamics with sophisticated indigo-rose palette for energetic yet refined interactions.</div>
+                        <div class="card-footer"><span class="tag pink">Playful</span><span class="tag pink">Energetic</span><span class="tag pink">0.5-2s cycles</span></div>
+                        <div class="button indigo">View Theme</div>
+                    </a>
+
+                    <a href="theme10_var2_wave.html" class="card indigo">
+                        <div class="card-title">🌊 Var2: Wave</div>
+                        <div class="card-description">Organic wave animations with mystical indigo-rose palette. Wave position morphing on sidebar for fluid elegance.</div>
+                        <div class="card-footer"><span class="tag pink">Fluid</span><span class="tag pink">Mystical</span><span class="tag pink">12-16s cycles</span></div>
+                        <div class="button indigo">View Theme</div>
+                    </a>
+
+                    <a href="theme10_var3_particles.html" class="card indigo">
+                        <div class="card-title">✨ Var3: Particles</div>
+                        <div class="card-description">Ethereal floating particles with indigo-rose glow. Creates mystical, dreamy atmosphere for creative applications.</div>
+                        <div class="card-footer"><span class="tag pink">Ethereal</span><span class="tag pink">Mystical</span><span class="tag pink">8-11s float</span></div>
+                        <div class="button indigo">View Theme</div>
+                    </a>
+
+                    <a href="theme10_var4_glitch.html" class="card indigo">
+                        <div class="card-title">⚡ Var4: Glitch</div>
+                        <div class="card-description">Digital glitch aesthetic in indigo-rose. Creates modern tech-forward impression with rapid morphing and stuttering effects.</div>
+                        <div class="card-footer"><span class="tag pink">Digital</span><span class="tag pink">Modern</span><span class="tag pink">3-10s cycles</span></div>
+                        <div class="button indigo">View Theme</div>
+                    </a>
+
+                    <a href="theme10_var5_rotating.html" class="card indigo">
+                        <div class="card-title">🌀 Var5: Rotating</div>
+                        <div class="card-description">Smooth rotation animations with continuous gradient cycling. Spinning icons and fading badges for premium polish.</div>
+                        <div class="card-footer"><span class="tag pink">Smooth</span><span class="tag pink">Premium</span><span class="tag pink">6-22s cycles</span></div>
+                        <div class="button indigo">View Theme</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>📊 Theme Selection Guide</h3>
+                <p>
+                    <strong>Emerald-Gold:</strong> Warm, energetic, inviting. Best for community-focused applications, media consumption platforms, and user-friendly services. The emerald-to-gold transition evokes growth and excitement.<br><br>
+                    <strong>Indigo-Rose:</strong> Cool, sophisticated, mystical. Best for premium applications, creative platforms, and modern tech services. Suggests elegance and contemporary design.<br><br>
+                    <strong>Animation Styles:</strong><br>
+                    • <strong>Refined Base:</strong> Professional, minimal motion<br>
+                    • <strong>Bouncy Ripple:</strong> Playful, interactive, high visual feedback<br>
+                    • <strong>Wave Flow:</strong> Organic, sophisticated, fluid motion<br>
+                    • <strong>Particles:</strong> Ambient, ethereal, background motion<br>
+                    • <strong>Glitch:</strong> Modern, digital, technical aesthetic<br>
+                    • <strong>Rotating:</strong> Smooth, polished, premium feel<br><br>
+                    <strong>Next Step:</strong> Select one theme and one variant. We'll apply it to the entire Browse&Request application codebase for seamless integration.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

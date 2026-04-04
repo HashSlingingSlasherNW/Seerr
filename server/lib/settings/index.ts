@@ -391,7 +391,7 @@ class Settings {
       vapidPublic: '',
       main: {
         apiKey: '',
-        applicationTitle: 'Seerr',
+        applicationTitle: 'Browse&Request',
         applicationUrl: '',
         cacheImages: false,
         defaultPermissions: Permission.REQUEST,

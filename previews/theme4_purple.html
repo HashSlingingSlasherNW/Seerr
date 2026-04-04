@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme 4: Purple + Electric Green — Browse&Request</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #2a1555 0%, #1a0f33 100%);
+            color: #f5f3ff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 256px;
+            background: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%);
+            box-shadow: 4px 0 16px rgba(0, 0, 0, 0.4);
+            overflow-y: auto;
+            flex-shrink: 0;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-logo {
+            padding: 0 20px 24px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #1a0f33;
+            text-shadow: 0 2px 6px rgba(78, 173, 128, 0.3);
+        }
+        .sidebar-nav {
+            flex: 1;
+        }
+        .nav-item {
+            padding: 12px 20px;
+            color: rgba(26, 15, 51, 0.85);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 4px 8px;
+            border-radius: 0 8px 8px 0;
+            font-weight: 500;
+        }
+        .nav-item:hover {
+            background: rgba(26, 15, 51, 0.15);
+            border-left-color: #4ade80;
+            color: #1a0f33;
+        }
+        .nav-item.active {
+            background: rgba(26, 15, 51, 0.25);
+            border-left-color: #4ade80;
+            color: #1a0f33;
+            font-weight: 600;
+        }
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            background: rgba(74, 222, 128, 0.3);
+            border-radius: 4px;
+        }
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .search-bar {
+            height: 64px;
+            background: linear-gradient(180deg, rgba(42, 21, 85, 0.95), rgba(42, 21, 85, 0.8));
+            border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .search-input {
+            flex: 1;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 8px;
+            padding: 10px 16px;
+            color: #f5f3ff;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.7);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+        }
+        .search-input::placeholder {
+            color: rgba(245, 243, 255, 0.5);
+        }
+        .user-menu {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #a855f7, #4ade80);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a0f33;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        .user-menu:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px 24px;
+            background: linear-gradient(135deg, #7e22ce 0%, #2a1555 100%);
+        }
+        .content h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #a855f7, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .content-subtitle {
+            color: rgba(245, 243, 255, 0.7);
+            margin-bottom: 32px;
+            font-size: 0.95rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 32px 0 16px;
+            color: #4ade80;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(74, 222, 128, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            aspect-ratio: 3/4;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(168, 85, 247, 0.7);
+            box-shadow: 0 12px 32px rgba(168, 85, 247, 0.2);
+        }
+        .card-image {
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(135deg, #7e22ce, #a855f7);
+            position: relative;
+        }
+        .card-content {
+            padding: 12px;
+            height: 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #f5f3ff;
+            line-height: 1.3;
+        }
+        .card-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: linear-gradient(135deg, #a855f7, #4ade80);
+            color: #1a0f33;
+            font-size: 0.65rem;
+            font-weight: 700;
+            border-radius: 3px;
+            width: fit-content;
+        }
+        .detail-panel {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(74, 222, 128, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        .detail-header {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .detail-image {
+            width: 120px;
+            height: 160px;
+            background: linear-gradient(135deg, #7e22ce, #a855f7);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .detail-info h2 {
+            font-size: 1.5rem;
+            color: #f5f3ff;
+            margin-bottom: 8px;
+        }
+        .detail-rating {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .star {
+            color: #4ade80;
+            font-size: 1rem;
+        }
+        .detail-description {
+            color: rgba(245, 243, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #a855f7, #7e22ce);
+            color: #f5f3ff;
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #c084fc, #a855f7);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+        }
+        .btn-accent {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #1a0f33;
+            box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+        }
+        .btn-accent:hover {
+            background: linear-gradient(135deg, #86efac, #4ade80);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 222, 128, 0.4);
+        }
+        .btn-ghost {
+            background: rgba(168, 85, 247, 0.1);
+            color: #a855f7;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        .btn-ghost:hover {
+            background: rgba(168, 85, 247, 0.2);
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .form-section {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(74, 222, 128, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        .form-section h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #f5f3ff;
+            margin-bottom: 16px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #a855f7;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(168, 85, 247, 0.05);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 6px;
+            color: #f5f3ff;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            background: rgba(168, 85, 247, 0.1);
+            border-color: rgba(168, 85, 247, 0.7);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+        }
+        input::placeholder {
+            color: rgba(245, 243, 255, 0.4);
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+        .badge.accent {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+            border-color: rgba(74, 222, 128, 0.4);
+        }
+        .badge.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+        .tag-group {
+            margin-top: 16px;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(168, 85, 247, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #a855f7, #4ade80);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #c084fc, #86efac);
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                padding: 0;
+            }
+            .sidebar-logo {
+                padding: 12px 20px;
+                flex: 1;
+                border-right: 1px solid rgba(74, 222, 128, 0.1);
+            }
+            .sidebar-nav {
+                display: none;
+            }
+            .content {
+                padding: 16px 12px;
+            }
+            .content h1 {
+                font-size: 1.5rem;
+            }
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 12px;
+            }
+            .detail-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-logo">Browse&Request</div>
+        <div class="sidebar-nav">
+            <div class="nav-item active">
+                <div class="nav-icon"></div>
+                Discover
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                Movies
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                TV Shows
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                Requests
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                Watchlist
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                Settings
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Search movies, shows, people...">
+            <div class="user-menu">U</div>
+        </div>
+
+        <div class="content">
+            <h1>Welcome Back!</h1>
+            <p class="content-subtitle">Theme Preview — Vibrant Purple + Electric Green</p>
+
+            <div class="section-title">Trending Now</div>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="card-title">Exciting Movie</div>
+                        <div class="card-badge">TRENDING</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="card-title">Great Series</div>
+                        <div class="card-badge">NEW</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="card-title">Classic Film</div>
+                        <div class="card-badge">POPULAR</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="card-title">Latest Hit</div>
+                        <div class="card-badge">TOP 10</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Featured Title</div>
+            <div class="detail-panel">
+                <div class="detail-header">
+                    <div class="detail-image"></div>
+                    <div class="detail-info">
+                        <h2>The Amazing Movie</h2>
+                        <div class="detail-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span style="color: rgba(245, 243, 255, 0.2);">★</span>
+                        </div>
+                        <p class="detail-description">
+                            An epic adventure with stunning visuals and compelling characters. Experience cinema at its finest with this groundbreaking production.
+                        </p>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary">Request Movie</button>
+                    <button class="btn btn-accent">Add to Watchlist</button>
+                    <button class="btn btn-ghost">Learn More</button>
+                </div>
+                <div class="tag-group">
+                    <span class="badge">Action</span>
+                    <span class="badge">Adventure</span>
+                    <span class="badge accent">2024</span>
+                    <span class="badge success">Available</span>
+                </div>
+            </div>
+
+            <div class="section-title">Quick Settings</div>
+            <div class="form-section">
+                <h3>Notification Preferences</h3>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Notification Frequency</label>
+                    <select>
+                        <option>Instant</option>
+                        <option>Daily Digest</option>
+                        <option>Weekly Summary</option>
+                        <option>Disabled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Additional Notes</label>
+                    <textarea rows="3" placeholder="Add any special requests or preferences..."></textarea>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary">Save Changes</button>
+                    <button class="btn btn-ghost">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
