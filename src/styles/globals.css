@@ -632,3 +632,48 @@
   animation: ripple 1.2s infinite;
   border-radius: 9999px;
 }
+
+/* ── Login page styles ───────────────────────────────────────────────────── */
+.login-page {
+  background: linear-gradient(-45deg, #0c2e1c, #1a4d34, #0d3b22, #1a2a3a);
+  background-size: 400% 400%;
+  animation: emeraldGradient 24s ease infinite;
+}
+
+.login-logo-glow {
+  filter: drop-shadow(0 0 30px rgba(52, 211, 153, 0.3))
+    drop-shadow(0 0 60px rgba(245, 158, 11, 0.15));
+  animation: bounceSlight 3s ease-in-out infinite;
+}
+
+.login-card {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.15), rgba(245, 158, 11, 0.1));
+  box-shadow:
+    0 0 40px rgba(52, 211, 153, 0.08),
+    0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes loginFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33%      { transform: translateY(-15px) rotate(3deg); }
+  66%      { transform: translateY(5px) rotate(-2deg); }
+}
+
+.login-float-icon {
+  animation: loginFloat 8s ease-in-out infinite;
+}
+
+.login-float-icon:nth-child(2) {
+  animation-delay: -2s;
+  animation-duration: 10s;
+}
+
+.login-float-icon:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 12s;
+}
+
+.login-float-icon:nth-child(4) {
+  animation-delay: -6s;
+  animation-duration: 9s;
+}
