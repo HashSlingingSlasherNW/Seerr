@@ -2,7 +2,6 @@ import EmbyLogo from '@app/assets/services/emby-icon-only.svg';
 import JellyfinLogo from '@app/assets/services/jellyfin-icon.svg';
 import PlexLogo from '@app/assets/services/plex.svg';
 import Button from '@app/components/Common/Button';
-import ImageFader from '@app/components/Common/ImageFader';
 import PageTitle from '@app/components/Common/PageTitle';
 import LanguagePicker from '@app/components/Layout/LanguagePicker';
 import JellyfinLogin from '@app/components/Login/JellyfinLogin';
@@ -12,7 +11,11 @@ import useSettings from '@app/hooks/useSettings';
 import { useUser } from '@app/hooks/useUser';
 import defineMessages from '@app/utils/defineMessages';
 import { Transition } from '@headlessui/react';
-import { XCircleIcon } from '@heroicons/react/24/solid';
+import {
+  FilmIcon,
+  SparklesIcon,
+  XCircleIcon,
+} from '@heroicons/react/24/solid';
 import { MediaServerType } from '@server/constants/server';
 import axios from 'axios';
 import { useRouter } from 'next/dist/client/router';
@@ -20,7 +23,6 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
-import useSWR from 'swr';
 
 const messages = defineMessages('components.Login', {
   signin: 'Sign In',
@@ -29,6 +31,8 @@ const messages = defineMessages('components.Login', {
   signinwithjellyfin: 'Use your {mediaServerName} account',
   signinwithoverseerr: 'Use your {applicationTitle} account',
   orsigninwith: 'Or sign in with',
+  welcomeback: 'Welcome Back',
+  logintagline: 'Your media, your requests — all in one place.',
 });
 
 const Login = () => {
@@ -74,12 +78,6 @@ const Login = () => {
       router.push('/');
     }
   }, [user, router]);
-
-  const { data: backdrops } = useSWR<string[]>('/api/v1/backdrops', {
-    refreshInterval: 0,
-    refreshWhenHidden: false,
-    revalidateOnFocus: false,
-  });
 
   const mediaServerName =
     settings.currentSettings.mediaServerType === MediaServerType.PLEX
@@ -129,7 +127,7 @@ const Login = () => {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/os_icon.svg"
+              src="/os_icon.png"
               alt={settings.currentSettings.applicationTitle}
               className="mr-2 h-5"
             />
@@ -150,29 +148,41 @@ const Login = () => {
   ].filter((o): o is JSX.Element => !!o);
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-gray-900 py-14">
+    <div className="login-page relative flex min-h-screen flex-col items-center justify-center py-14">
       <PageTitle title={intl.formatMessage(messages.signin)} />
-      <ImageFader
-        backgroundImages={
-          backdrops?.map(
-            (backdrop) => `https://image.tmdb.org/t/p/original${backdrop}`
-          ) ?? []
-        }
-      />
       <div className="absolute right-4 top-4 z-50">
         <LanguagePicker />
       </div>
-      <div className="relative z-40 mt-10 flex flex-col items-center px-4 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="relative h-48 w-full max-w-full">
-          <Image src="/logo_stacked.svg" alt="Logo" fill />
-        </div>
+
+      {/* Decorative floating icons */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <FilmIcon className="login-float-icon absolute left-[10%] top-[15%] h-16 w-16 text-emerald-500/10" />
+        <SparklesIcon className="login-float-icon absolute right-[15%] top-[20%] h-12 w-12 text-amber-500/10" />
+        <FilmIcon className="login-float-icon absolute bottom-[20%] left-[20%] h-10 w-10 text-amber-500/10" />
+        <SparklesIcon className="login-float-icon absolute bottom-[25%] right-[10%] h-14 w-14 text-emerald-500/10" />
       </div>
-      <div className="relative z-50 mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div
-          className="bg-gray-800/50 shadow sm:rounded-lg"
-          style={{ backdropFilter: 'blur(5px)' }}
-        >
-          <>
+
+      <div className="relative z-40 flex flex-col items-center px-4 sm:mx-auto sm:w-full sm:max-w-md">
+        {/* Logo with glow effect */}
+        <div className="login-logo-glow relative mb-2 h-40 w-40">
+          <Image
+            src="/logo_stacked.png"
+            alt="Logo"
+            fill
+            className="object-contain drop-shadow-2xl"
+          />
+        </div>
+        <h1 className="text-overseerr mt-2 text-3xl font-extrabold tracking-tight">
+          {intl.formatMessage(messages.welcomeback)}
+        </h1>
+        <p className="mt-2 text-center text-sm text-gray-400">
+          {intl.formatMessage(messages.logintagline)}
+        </p>
+      </div>
+
+      <div className="relative z-50 mt-8 w-full sm:mx-auto sm:max-w-md">
+        <div className="login-card mx-4 rounded-2xl border border-emerald-900/30 p-1 shadow-2xl sm:mx-0">
+          <div className="rounded-xl bg-gray-900/70 backdrop-blur-md">
             <Transition
               as="div"
               show={!!error}
@@ -183,7 +193,7 @@ const Login = () => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="mb-4 rounded-md bg-red-600 p-4">
+              <div className="mx-6 mt-6 rounded-lg bg-red-600/90 p-4">
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <XCircleIcon className="h-5 w-5 text-red-300" />
@@ -196,7 +206,7 @@ const Login = () => {
                 </div>
               </div>
             </Transition>
-            <div className="px-10 py-8">
+            <div className="px-8 py-8 sm:px-10">
               <SwitchTransition mode="out-in">
                 <CSSTransition
                   key={mediaServerLogin ? 'ms' : 'local'}
@@ -234,11 +244,11 @@ const Login = () => {
               {additionalLoginOptions.length > 0 &&
                 (loginFormVisible ? (
                   <div className="flex items-center py-5">
-                    <div className="flex-grow border-t border-gray-600" />
-                    <span className="mx-2 flex-shrink text-sm text-gray-400">
+                    <div className="flex-grow border-t border-emerald-800/50" />
+                    <span className="mx-3 flex-shrink text-xs font-medium uppercase tracking-wider text-gray-500">
                       {intl.formatMessage(messages.orsigninwith)}
                     </span>
-                    <div className="flex-grow border-t border-gray-600" />
+                    <div className="flex-grow border-t border-emerald-800/50" />
                   </div>
                 ) : (
                   <h2 className="mb-6 text-center text-lg font-bold text-neutral-200">
@@ -254,7 +264,7 @@ const Login = () => {
                 {additionalLoginOptions}
               </div>
             </div>
-          </>
+          </div>
         </div>
       </div>
     </div>
