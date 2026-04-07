@@ -203,7 +203,7 @@ const Sidebar = ({
                       <span className="w-full px-4 text-xl text-gray-50">
                         <Link href="/" className="relative block h-24 w-64">
                           <Image
-                            src="/logo_full.png"
+                            src="/mainpage_logo.png"
                             alt="Logo"
                             fill
                             className="object-contain"
@@ -275,7 +275,7 @@ const Sidebar = ({
                 <span className="w-full px-4 py-2 text-2xl text-gray-50">
                   <Link href="/" className="relative block h-24">
                     <Image
-                      src="/logo_full.png"
+                      src="/mainpage_logo.png"
                       alt="Logo"
                       fill
                       className="object-contain"

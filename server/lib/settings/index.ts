@@ -458,7 +458,7 @@ class Settings {
               ignoreTls: false,
               requireTls: false,
               allowSelfSigned: false,
-              senderName: 'Seerr',
+              senderName: 'Browse&Request',
             },
           },
           discord: {

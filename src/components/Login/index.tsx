@@ -1,9 +1,11 @@
 import EmbyLogo from '@app/assets/services/emby-icon-only.svg';
 import JellyfinLogo from '@app/assets/services/jellyfin-icon.svg';
 import PlexLogo from '@app/assets/services/plex.svg';
+import SuccessAnimation from '@app/components/Common/SuccessAnimation';
 import Button from '@app/components/Common/Button';
 import PageTitle from '@app/components/Common/PageTitle';
 import LanguagePicker from '@app/components/Layout/LanguagePicker';
+import BackgroundSlideshow from '@app/components/Login/BackgroundSlideshow';
 import JellyfinLogin from '@app/components/Login/JellyfinLogin';
 import LocalLogin from '@app/components/Login/LocalLogin';
 import PlexLoginButton from '@app/components/Login/PlexLoginButton';
@@ -11,16 +13,12 @@ import useSettings from '@app/hooks/useSettings';
 import { useUser } from '@app/hooks/useUser';
 import defineMessages from '@app/utils/defineMessages';
 import { Transition } from '@headlessui/react';
-import {
-  FilmIcon,
-  SparklesIcon,
-  XCircleIcon,
-} from '@heroicons/react/24/solid';
+import { XCircleIcon } from '@heroicons/react/24/solid';
 import { MediaServerType } from '@server/constants/server';
 import axios from 'axios';
 import { useRouter } from 'next/dist/client/router';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
@@ -44,6 +42,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [isProcessing, setProcessing] = useState(false);
   const [authToken, setAuthToken] = useState<string | undefined>(undefined);
+  const [showLoginSuccess, setShowLoginSuccess] = useState(false);
   const [mediaServerLogin, setMediaServerLogin] = useState(
     settings.currentSettings.mediaServerLogin
   );
@@ -72,12 +71,17 @@ const Login = () => {
   }, [authToken, revalidate]);
 
   // Effect that is triggered whenever `useUser`'s user changes. If we get a new
-  // valid user, we redirect the user to the home page as the login was successful.
+  // valid user, show the success animation before redirecting.
   useEffect(() => {
     if (user) {
-      router.push('/');
+      setShowLoginSuccess(true);
     }
-  }, [user, router]);
+  }, [user]);
+
+  const handleLoginAnimationComplete = useCallback(() => {
+    setShowLoginSuccess(false);
+    router.push('/');
+  }, [router]);
 
   const mediaServerName =
     settings.currentSettings.mediaServerType === MediaServerType.PLEX
@@ -148,25 +152,22 @@ const Login = () => {
   ].filter((o): o is JSX.Element => !!o);
 
   return (
-    <div className="login-page relative flex min-h-screen flex-col items-center justify-center py-14">
+    <div className="relative flex min-h-screen flex-col items-center justify-center py-14">
+      <BackgroundSlideshow />
       <PageTitle title={intl.formatMessage(messages.signin)} />
+      <SuccessAnimation
+        show={showLoginSuccess}
+        onComplete={handleLoginAnimationComplete}
+      />
       <div className="absolute right-4 top-4 z-50">
         <LanguagePicker />
-      </div>
-
-      {/* Decorative floating icons */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <FilmIcon className="login-float-icon absolute left-[10%] top-[15%] h-16 w-16 text-emerald-500/10" />
-        <SparklesIcon className="login-float-icon absolute right-[15%] top-[20%] h-12 w-12 text-amber-500/10" />
-        <FilmIcon className="login-float-icon absolute bottom-[20%] left-[20%] h-10 w-10 text-amber-500/10" />
-        <SparklesIcon className="login-float-icon absolute bottom-[25%] right-[10%] h-14 w-14 text-emerald-500/10" />
       </div>
 
       <div className="relative z-40 flex flex-col items-center px-4 sm:mx-auto sm:w-full sm:max-w-md">
         {/* Logo with glow effect */}
         <div className="login-logo-glow relative mb-2 h-40 w-40">
           <Image
-            src="/logo_stacked.png"
+            src="/login_logo.png"
             alt="Logo"
             fill
             className="object-contain drop-shadow-2xl"

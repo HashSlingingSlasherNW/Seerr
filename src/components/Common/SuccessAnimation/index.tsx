@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSpring, animated, config } from 'react-spring';
 
 interface SuccessAnimationProps {
@@ -10,6 +10,8 @@ const SuccessAnimation = ({ show, onComplete }: SuccessAnimationProps) => {
   const [particles, setParticles] = useState<
     Array<{ id: number; x: number; y: number; color: string; delay: number }>
   >([]);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   useEffect(() => {
     if (show) {
@@ -25,22 +27,22 @@ const SuccessAnimation = ({ show, onComplete }: SuccessAnimationProps) => {
 
       const newParticles = Array.from({ length: 30 }, (_, i) => ({
         id: i,
-        x: Math.random() * 100 - 50,
-        y: -(Math.random() * 100 + 50),
+        x: Math.random() * 200 - 100,
+        y: Math.random() * 200 - 100,
         color: colors[Math.floor(Math.random() * colors.length)],
-        delay: Math.random() * 200,
+        delay: Math.random() * 300,
       }));
 
       setParticles(newParticles);
 
       // Auto-complete after animation
       const timer = setTimeout(() => {
-        onComplete?.();
-      }, 2000);
+        onCompleteRef.current?.();
+      }, 2500);
 
       return () => clearTimeout(timer);
     }
-  }, [show, onComplete]);
+  }, [show]);
 
   const checkmarkAnimation = useSpring({
     from: { scale: 0, opacity: 0, rotate: -180 },
@@ -61,7 +63,7 @@ const SuccessAnimation = ({ show, onComplete }: SuccessAnimationProps) => {
   if (!show) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
+    <div className="pointer-events-none fixed inset-0 flex items-center justify-center" style={{ zIndex: 99999 }}>
       {/* Confetti particles */}
       <div className="absolute inset-0 overflow-hidden">
         {particles.map((particle) => (
@@ -103,25 +105,32 @@ interface ParticleProps {
   y: number;
   color: string;
   delay: number;
+  id: number;
 }
 
-const Particle = ({ x, y, color, delay }: ParticleProps) => {
+const Particle = ({ x, y, color, delay, id }: ParticleProps) => {
+  const size = 4 + (id % 5) * 2; // varied sizes 4-12px
+  const shape = id % 3; // 0 = circle, 1 = square, 2 = rectangle
+
   const animation = useSpring({
-    from: { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
-    to: async (next) => {
-      await next({
-        transform: `translate(${x}vw, ${y}vh) rotate(${Math.random() * 720}deg)`,
-        opacity: 0,
-      });
+    from: { transform: 'translate(0px, 0px) rotate(0deg) scale(1)', opacity: 1 },
+    to: {
+      transform: `translate(${x}vw, ${y}vh) rotate(${360 + Math.random() * 720}deg) scale(0.2)`,
+      opacity: 0,
     },
-    config: { duration: 1500 },
+    config: { duration: 1800, easing: (t: number) => 1 - Math.pow(1 - t, 3) },
     delay,
   });
 
   return (
     <animated.div
-      style={{ ...animation, backgroundColor: color }}
-      className="absolute left-1/2 top-1/2 h-3 w-3 rounded-full"
+      style={{
+        ...animation,
+        backgroundColor: color,
+        width: shape === 2 ? size * 1.5 : size,
+        height: shape === 2 ? size * 0.6 : size,
+      }}
+      className={`absolute left-1/2 top-1/2 ${shape === 0 ? 'rounded-full' : 'rounded-sm'}`}
     />
   );
 };

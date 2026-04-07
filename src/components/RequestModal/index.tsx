@@ -6,7 +6,7 @@ import { Transition } from '@headlessui/react';
 import type { MediaStatus } from '@server/constants/media';
 import type { MediaRequest } from '@server/entity/MediaRequest';
 import type { NonFunctionProperties } from '@server/interfaces/api/common';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 interface RequestModalProps {
   show: boolean;
@@ -31,13 +31,20 @@ const RequestModal = ({
 }: RequestModalProps) => {
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
 
-  const handleComplete = (newStatus: MediaStatus) => {
-    // Only show success animation for new requests that are pending or processing
-    if (!editRequest) {
-      setShowSuccessAnimation(true);
-    }
-    onComplete?.(newStatus);
-  };
+  const handleComplete = useCallback(
+    (newStatus: MediaStatus) => {
+      // Only show success animation for new requests that are pending or processing
+      if (!editRequest) {
+        setShowSuccessAnimation(true);
+      }
+      onComplete?.(newStatus);
+    },
+    [editRequest, onComplete]
+  );
+
+  const handleAnimationComplete = useCallback(() => {
+    setShowSuccessAnimation(false);
+  }, []);
 
   return (
     <>
@@ -82,7 +89,7 @@ const RequestModal = ({
 
       <SuccessAnimation
         show={showSuccessAnimation}
-        onComplete={() => setShowSuccessAnimation(false)}
+        onComplete={handleAnimationComplete}
       />
     </>
   );
