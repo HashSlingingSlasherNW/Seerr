@@ -1,5 +1,4 @@
 import Badge from '@app/components/Common/Badge';
-import UserWarnings from '@app/components/Layout/UserWarnings';
 import VersionStatus from '@app/components/Layout/VersionStatus';
 import useClickOutside from '@app/hooks/useClickOutside';
 import { Permission, useUser } from '@app/hooks/useUser';
@@ -11,7 +10,6 @@ import {
   ExclamationTriangleIcon,
   EyeSlashIcon,
   FilmIcon,
-  HeartIcon,
   SparklesIcon,
   TvIcon,
   UsersIcon,
@@ -25,7 +23,6 @@ import { useIntl } from 'react-intl';
 
 export const menuMessages = defineMessages('components.Layout.Sidebar', {
   dashboard: 'Discover',
-  familycenter: 'Family Center',
   browsemovies: 'Movies',
   browsetv: 'Series',
   family: 'Family Center',
@@ -62,12 +59,6 @@ const SidebarLinks: SidebarLinkProps[] = [
     messagesKey: 'dashboard',
     svgIcon: <SparklesIcon className="mr-3 h-6 w-6" />,
     activeRegExp: /^\/(discover\/?)?$/,
-  },
-  {
-    href: '/family-center',
-    messagesKey: 'familycenter',
-    svgIcon: <HeartIcon className="mr-3 h-6 w-6" />,
-    activeRegExp: /^\/family-center/,
   },
   {
     href: '/discover/movies',
@@ -247,10 +238,6 @@ const Sidebar = ({
                         );
                       })}
                     </nav>
-                    <div className="px-2">
-                      <UserWarnings onClick={() => setClosed()} />
-                    </div>
-
                     {hasPermission(Permission.ADMIN) && (
                       <div className="px-2">
                         <VersionStatus onClick={() => setClosed()} />
@@ -279,6 +266,7 @@ const Sidebar = ({
                       alt="Logo"
                       fill
                       className="object-contain"
+                      loading="eager"
                     />
                   </Link>
                 </span>
@@ -341,9 +329,6 @@ const Sidebar = ({
                   );
                 })}
               </nav>
-              <div className="px-2">
-                <UserWarnings />
-              </div>
               {hasPermission(Permission.ADMIN) && (
                 <div className="px-2">
                   <VersionStatus />
