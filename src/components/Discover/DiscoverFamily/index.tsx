@@ -1,5 +1,4 @@
 import Button from '@app/components/Common/Button';
-import Header from '@app/components/Common/Header';
 import ListView from '@app/components/Common/ListView';
 import PageTitle from '@app/components/Common/PageTitle';
 import type { FilterOptions } from '@app/components/Discover/constants';
@@ -86,8 +85,8 @@ const DiscoverFamily = () => {
 
       {/* Vibrant gradient header */}
       <div className="relative mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 p-8 shadow-2xl">
-        <div className="absolute inset-0 bg-black opacity-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+        <div className="absolute inset-0 bg-black opacity-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
 
         {/* Animated sparkles */}
         <div className="absolute right-8 top-8 animate-pulse">
@@ -114,7 +113,7 @@ const DiscoverFamily = () => {
       <div className="mb-4 flex flex-col justify-between lg:flex-row lg:items-end">
         <div className="mb-4 lg:mb-0">
           <div className="flex items-center gap-2">
-            <div className="h-1 w-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
+            <div className="h-1 w-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500" />
             <h2 className="text-2xl font-bold text-white">Browse Content</h2>
           </div>
         </div>

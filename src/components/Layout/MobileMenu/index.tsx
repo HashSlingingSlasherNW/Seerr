@@ -82,7 +82,7 @@ const MobileMenu = ({
     },
     {
       href: '/family-center',
-      content: intl.formatMessage(menuMessages.familycenter),
+      content: intl.formatMessage(menuMessages.family),
       svgIcon: <HeartIcon className="h-6 w-6" />,
       svgIconSelected: <FilledHeartIcon className="h-6 w-6" />,
       activeRegExp: /^\/family-center/,
