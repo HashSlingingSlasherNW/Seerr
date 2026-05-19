@@ -474,7 +474,6 @@ class Settings {
               allowSelfSigned: false,
               senderName: 'Browse&Request',
               usePublicLogo: false,
-              usePublicLogo: false,
             },
           },
           discord: {
