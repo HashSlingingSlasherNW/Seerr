@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSpring, animated, config } from 'react-spring';
+import { useEffect, useRef, useState } from 'react';
+import { useSpring, animated, config } from '@react-spring/web';
 
 interface SuccessAnimationProps {
   show: boolean;
@@ -8,7 +8,7 @@ interface SuccessAnimationProps {
 
 const SuccessAnimation = ({ show, onComplete }: SuccessAnimationProps) => {
   const [particles, setParticles] = useState<
-    Array<{ id: number; x: number; y: number; color: string; delay: number }>
+    { id: number; x: number; y: number; color: string; delay: number }[]
   >([]);
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;

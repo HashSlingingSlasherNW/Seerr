@@ -29,7 +29,7 @@ import {
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { cloneElement, useEffect, useRef, useState } from 'react';
+import { cloneElement, useEffect, useRef, useState, type JSX } from 'react';
 import { useIntl } from 'react-intl';
 
 interface MobileMenuProps {
@@ -82,7 +82,7 @@ const MobileMenu = ({
     },
     {
       href: '/family-center',
-      content: intl.formatMessage(menuMessages.familycenter),
+      content: intl.formatMessage(menuMessages.family),
       svgIcon: <HeartIcon className="h-6 w-6" />,
       svgIconSelected: <FilledHeartIcon className="h-6 w-6" />,
       activeRegExp: /^\/family-center/,

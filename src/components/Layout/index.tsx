@@ -3,6 +3,7 @@ import PullToRefresh from '@app/components/Layout/PullToRefresh';
 import SearchInput from '@app/components/Layout/SearchInput';
 import Sidebar from '@app/components/Layout/Sidebar';
 import UserDropdown from '@app/components/Layout/UserDropdown';
+import UserWarnings from '@app/components/Layout/UserWarnings';
 import useLocale from '@app/hooks/useLocale';
 import useSettings from '@app/hooks/useSettings';
 import { useUser } from '@app/hooks/useUser';
@@ -65,7 +66,13 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="flex h-full min-h-full min-w-0 bg-[#0c2e1c]">
       <div className="pwa-only fixed inset-0 z-20 h-1 w-full border-gray-700 md:border-t" />
-      <div className="absolute top-0 h-96 w-full opacity-30" style={{background: 'linear-gradient(135deg, rgba(52,211,153,0.4) 0%, rgba(245,158,11,0.2) 100%)'}}>
+      <div
+        className="absolute top-0 h-96 w-full opacity-30"
+        style={{
+          background:
+            'linear-gradient(135deg, rgba(52,211,153,0.4) 0%, rgba(245,158,11,0.2) 100%)',
+        }}
+      >
         <div className="relative inset-0 h-full w-full bg-gradient-to-t from-[#0c2e1c] to-transparent" />
       </div>
       <Sidebar
@@ -124,7 +131,10 @@ const Layout = ({ children }: LayoutProps) => {
 
         <main className="relative top-16 z-0 focus:outline-none" tabIndex={0}>
           <div className="mb-6">
-            <div className="max-w-8xl mx-auto px-4">{children}</div>
+            <div className="max-w-8xl mx-auto px-4">
+              <UserWarnings />
+              {children}
+            </div>
           </div>
         </main>
       </div>
