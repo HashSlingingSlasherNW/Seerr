@@ -14,6 +14,7 @@ import { Permission } from '@server/lib/permissions';
 import { getSettings } from '@server/lib/settings';
 import logger from '@server/logger';
 import { DbAwareColumn, resolveDbType } from '@server/utils/DbColumnHelper';
+import requestLock from '@server/utils/requestLock';
 import { truncate } from 'lodash';
 import {
   AfterInsert,
@@ -48,6 +49,16 @@ export class MediaRequest {
     requestBody: MediaRequestBody,
     user: User,
     options: MediaRequestOptions = {}
+  ): Promise<MediaRequest> {
+    return requestLock.dispatch(requestBody.userId || user.id, () =>
+      MediaRequest.createRequest(requestBody, user, options)
+    );
+  }
+
+  private static async createRequest(
+    requestBody: MediaRequestBody,
+    user: User,
+    options: MediaRequestOptions
   ): Promise<MediaRequest> {
     const tmdb = new TheMovieDb();
     const mediaRepository = getRepository(Media);
@@ -113,10 +124,30 @@ export class MediaRequest {
 
     const quotas = await requestUser.getQuota();
 
-    if (requestBody.mediaType === MediaType.MOVIE && quotas.movie.restricted) {
-      throw new QuotaRestrictedError('Movie Quota exceeded.');
-    } else if (requestBody.mediaType === MediaType.TV && quotas.tv.restricted) {
-      throw new QuotaRestrictedError('Series Quota exceeded.');
+    const canBypassQuota = user.hasPermission(Permission.MANAGE_REQUESTS);
+    const ignoreQuota =
+      requestBody.ignoreQuota === true &&
+      canBypassQuota &&
+      ((requestBody.mediaType === MediaType.MOVIE
+        ? quotas.movie.limit
+        : quotas.tv.limit) ?? 0) > 0;
+
+    if (!ignoreQuota) {
+      if (requestBody.ignoreQuota && !canBypassQuota) {
+        throw new RequestPermissionError(
+          'You do not have permission to bypass user quota limits.'
+        );
+      } else if (
+        requestBody.mediaType === MediaType.MOVIE &&
+        quotas.movie.restricted
+      ) {
+        throw new QuotaRestrictedError('Movie Quota exceeded.');
+      } else if (
+        requestBody.mediaType === MediaType.TV &&
+        quotas.tv.restricted
+      ) {
+        throw new QuotaRestrictedError('Series Quota exceeded.');
+      }
     }
 
     const tmdbMedia =
@@ -151,18 +182,26 @@ export class MediaRequest {
         throw new BlocklistedMediaError('This media is blocklisted.');
       }
 
-      if (media.status === MediaStatus.UNKNOWN && !requestBody.is4k) {
+      if (
+        (media.status === MediaStatus.UNKNOWN ||
+          media.status === MediaStatus.DELETED) &&
+        !requestBody.is4k
+      ) {
         media.status = MediaStatus.PENDING;
       }
 
-      if (media.status4k === MediaStatus.UNKNOWN && requestBody.is4k) {
+      if (
+        (media.status4k === MediaStatus.UNKNOWN ||
+          media.status4k === MediaStatus.DELETED) &&
+        requestBody.is4k
+      ) {
         media.status4k = MediaStatus.PENDING;
       }
     }
 
     const existing = await requestRepository
       .createQueryBuilder('request')
-      .leftJoin('request.media', 'media')
+      .leftJoinAndSelect('request.media', 'media')
       .leftJoinAndSelect('request.requestedBy', 'user')
       .where('request.is4k = :is4k', { is4k: requestBody.is4k })
       .andWhere('media.tmdbId = :tmdbId', { tmdbId: tmdbMedia.id })
@@ -192,9 +231,13 @@ export class MediaRequest {
 
       // If an existing auto-request for this media exists from the same user,
       // don't allow a new one.
+      const statusKey = requestBody.is4k ? 'status4k' : 'status';
       if (
         existing.find(
-          (r) => r.requestedBy.id === requestUser.id && r.isAutoRequest
+          (r) =>
+            r.requestedBy.id === requestUser.id &&
+            r.isAutoRequest &&
+            r.media?.[statusKey] !== MediaStatus.DELETED
         )
       ) {
         throw new DuplicateMediaRequestError(
@@ -214,19 +257,24 @@ export class MediaRequest {
 
     if (useOverrides) {
       const defaultRadarrId = requestBody.is4k
-        ? settings.radarr.findIndex((r) => r.is4k && r.isDefault)
-        : settings.radarr.findIndex((r) => !r.is4k && r.isDefault);
+        ? settings.radarr.find((r) => r.is4k && r.isDefault)?.id
+        : settings.radarr.find((r) => !r.is4k && r.isDefault)?.id;
       const defaultSonarrId = requestBody.is4k
-        ? settings.sonarr.findIndex((s) => s.is4k && s.isDefault)
-        : settings.sonarr.findIndex((s) => !s.is4k && s.isDefault);
+        ? settings.sonarr.find((s) => s.is4k && s.isDefault)?.id
+        : settings.sonarr.find((s) => !s.is4k && s.isDefault)?.id;
+
+      const [defaultServiceIdField, defaultServiceId] =
+        requestBody.mediaType === MediaType.MOVIE
+          ? (['radarrServiceId', defaultRadarrId] as const)
+          : (['sonarrServiceId', defaultSonarrId] as const);
 
       const overrideRuleRepository = getRepository(OverrideRule);
-      const overrideRules = await overrideRuleRepository.find({
-        where:
-          requestBody.mediaType === MediaType.MOVIE
-            ? { radarrServiceId: defaultRadarrId }
-            : { sonarrServiceId: defaultSonarrId },
-      });
+      const overrideRules =
+        defaultServiceId === undefined
+          ? []
+          : await overrideRuleRepository.find({
+              where: { [defaultServiceIdField]: defaultServiceId },
+            });
 
       const appliedOverrideRules = overrideRules.filter((rule) => {
         const hasAnimeKeyword =
@@ -373,6 +421,7 @@ export class MediaRequest {
         rootFolder: rootFolder,
         tags: tags,
         isAutoRequest: options.isAutoRequest ?? false,
+        ignoreQuota,
       });
 
       await requestRepository.save(request);
@@ -436,6 +485,7 @@ export class MediaRequest {
       if (finalSeasons.length === 0) {
         throw new NoSeasonsAvailableError('No seasons available to request');
       } else if (
+        !ignoreQuota &&
         quotas.tv.limit &&
         finalSeasons.length > (quotas.tv.remaining ?? 0)
       ) {
@@ -504,6 +554,7 @@ export class MediaRequest {
             })
         ),
         isAutoRequest: options.isAutoRequest ?? false,
+        ignoreQuota,
       });
 
       await requestRepository.save(request);
@@ -609,6 +660,9 @@ export class MediaRequest {
 
   @Column({ default: false })
   public isAutoRequest: boolean;
+
+  @Column({ default: false })
+  public ignoreQuota: boolean;
 
   constructor(init?: Partial<MediaRequest>) {
     Object.assign(this, init);
